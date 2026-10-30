@@ -10,7 +10,7 @@
 <meta name="apple-mobile-web-app-status-bar-style" content="default">
 <meta name="apple-mobile-web-app-title" content="আল আহবাব">
 <meta name="mobile-web-app-capable" content="yes">
-<title>আল আহবাব সংগঠন</title>
+<title>আল আহবাব সঞ্চয় সমিতি</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Hind+Siliguri:wght@400;500;600;700&display=swap" rel="stylesheet">
@@ -137,7 +137,7 @@ function dashView(){
     <div class="text-sm" style="color:var(--sub)">মোট জমা</div>
     <div class="text-3xl font-bold grad-text">৳ ${fmt(total)}</div>
     <div class="grid grid-cols-2 gap-3 mt-4">
-      <div class="glass p-3"><div class="text-xs" style="color:var(--sub)">সদস্য</div><div class="text-xl font-bold">${members.length}</div></div>
+      <div class="glass p-3"><div class="text-xs" style="color:var(--sub)">সদস্য</div><div class="text-xl font-bold">${fmt(members.length)}</div></div>
       <div class="glass p-3"><div class="text-xs" style="color:var(--sub)">বকেয়া ঋণ</div><div class="text-xl font-bold">৳ ${fmt(outstanding)}</div></div>
     </div>
     <div class="mt-3 text-xs" style="color:var(--sub)">মাসিক চাঁদা ৳${fmt(config.monthlyAmount)} • মেয়াদ ${config.termMonths} মাস</div>
@@ -264,6 +264,8 @@ function loansView(){
       <button onclick="repay('${l.id}')" class="btn px-4 py-2 text-sm">কিস্তি জমা</button>
     </div>`:''}
     <div class="flex items-center gap-3 mt-2">
+      <button onclick="shareReceipt({type:'ঋণের রশিদ',who:'${name.replace(/'/g,"\\'")}',amount:${l.amount},date:'${l.issueDate||l.dueDate||''}'})" class="text-xs grad-text font-medium">রশিদ</button>
+      ${isAdmin&&l.status!=='paid'?`<button onclick="shareReceipt({type:'কিস্তির রশিদ',who:'${name.replace(/'/g,"\\'")}',amount:(${l.amount}-${l.remaining}),date:'${todayStr()}'})" class="text-xs grad-text font-medium">কিস্তির রশিদ</button>`:''}
       ${isAdmin&&phone&&l.status!=='paid'?`<button onclick="sendReminder('${l.id}')" class="text-xs grad-text font-medium">রিমাইন্ডার পাঠান</button>`:''}
       ${isAdmin?`<button onclick="delLoan('${l.id}')" class="text-xs text-red-500">মুছে ফেলুন</button>`:''}
     </div>
